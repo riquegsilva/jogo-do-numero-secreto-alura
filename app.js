@@ -3,8 +3,8 @@ let numeroSecreto = gerarNumeroAleatorio();
 let tentativas = 1;
 
 document.querySelector('input.container__input').addEventListener('keypress', function (event) {
-    if (event.key === 'Enter') { // Verifica se a tecla pressionada foi Enter
-        verificandoChute(); // Chama a função de verificação
+    if (event.key === 'Enter') { 
+        verificandoChute(); 
     }
 });
 
@@ -13,8 +13,12 @@ function exibirTextoNaTela(tag, texto) {
     campo.innerHTML = texto;
 }
 
-exibirTextoNaTela('h1', 'Jogo do Número Secreto');
-exibirTextoNaTela('p', `Escolha um número de 1 a ${numeroAleatorioMaximo}`);
+function exibirMensagemInicial() {
+    exibirTextoNaTela('h1', 'Jogo do Número Secreto');
+    exibirTextoNaTela('p', `Escolha um número de 1 a ${numeroAleatorioMaximo}`);
+}
+
+exibirMensagemInicial();
 
 function verificandoChute() {
 
@@ -25,6 +29,8 @@ function verificandoChute() {
         let palavraTentativa = tentativas > 1 ? 'tentativas' : 'tentativa';
         let mensagemTentativa = `Parabéns, você descobriu o número secreto ${numeroSecreto}, com ${tentativas} ${palavraTentativa}`;
         exibirTextoNaTela('p', mensagemTentativa);
+        document.getElementById('reiniciar').removeAttribute('disabled');
+
     } else {
         if (chute > numeroSecreto) {
             exibirTextoNaTela('p', `O número secreto é menor que ${chute}. Tente novamente!`);
@@ -43,4 +49,12 @@ function gerarNumeroAleatorio() {
 function limparCampo() {
     limpar = document.querySelector('input');
     limpar.value = '';
+}
+
+function reiniciarJogo() {
+    numeroSecreto = gerarNumeroAleatorio;
+    limparCampo();
+    tentativas = 1;
+    exibirMensagemInicial();
+    document.getElementById('reiniciar').setAttribute('disabled', true);
 }
